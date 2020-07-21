@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-example_set = [
+example_dataset = [
     {
         "x": 1,
         "y": 2
@@ -74,15 +74,19 @@ def gradient(x_deviations, y_deviations):
 def intercept(mean_y_value, gradient, mean_x_value):
     return mean_y_value - (linear_gradient * mean_x_value)
 
-mean_x_value = mean(example_set, "x")
-mean_y_value = mean(example_set, "y")
+mean_x_value = mean(example_dataset, "x")
+mean_y_value = mean(example_dataset, "y")
 
-x_deviations = deviations_from_mean(mean_x_value, example_set, "x")
-y_deviations = deviations_from_mean(mean_y_value, example_set, "y")
+x_deviations = deviations_from_mean(mean_x_value, example_dataset, "x")
+y_deviations = deviations_from_mean(mean_y_value, example_dataset, "y")
 
 # https://en.wikipedia.org/wiki/Regression_analysis "Linear Regression"
 linear_gradient = gradient(x_deviations, y_deviations)
 y_intercept = intercept(mean_y_value, linear_gradient, mean_x_value)
 
-print("The linear regression for this dataset is a f(x) {0}*x + {1}".format(linear_gradient,
+print("Given this dataset:")
+for datum in example_dataset:
+    print("({},{})".format(datum["x"], datum["y"]))
+
+print("The linear regression for this dataset is : \n y = {0} * x + {1}".format(linear_gradient,
     y_intercept))
