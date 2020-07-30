@@ -24,10 +24,13 @@ for elem in deviations_from_mean:
 sum_of_squares = sum(deviations_squared)
 print("Total sum of squares (TSS) will be more useful:", sum_of_squares)
 
-arithmetic_mean_of_total_sum_of_squares = sum_of_squares/number_of_data
-print("The average deviation_squared:", arithmetic_mean_of_total_sum_of_squares)
+population_variance = sum_of_squares/number_of_data
+print("The average deviation, squared AKA population variance:", population_variance)
 
-print("This is still squared, so to undo that, take the root:", math.sqrt(arithmetic_mean_of_total_sum_of_squares))
+print("This is still squared, so to undo that, take the root to find population standard deviation:", math.sqrt(population_variance))
 
 print("This is the same as taking the root of the sum of squares, and then finding the average from the root of n:", math.sqrt(sum_of_squares)/math.sqrt(number_of_data))
 print("This simply means, that since all terms were squared, then all terms must have their root found")
+
+sample_variance = sum_of_squares/number_of_data-1
+print("For sample standard deviation,:", math.sqrt(sample_variance))
