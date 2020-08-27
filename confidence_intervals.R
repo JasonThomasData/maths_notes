@@ -54,3 +54,34 @@ plot_distribution(sample_statistics, "sample_means", is_normal)
 # With a larger confidence interval, we can make the claim that more of the sample's observations are going to represent the population faithfully.
 # A smaller confidence interval will take in data closest to the mean of a normal distribution, while a larger confidence interval will include the mean but also more of the areas towards the extremes.
 # Because a normal distribution trails off towards the extremes, then the size of samples is inversely proportional to the standard error
+
+# confidence intervals
+
+# critical values | confidence intervals
+# 1.645           | 90%
+# 1.96            | 95%
+# 2.576           | 99%
+
+a_sample = sample(bimodal_distribution, size=sample_size)
+
+# When you know the SD of the population
+standard_error = sd(bimodal_distribution) / sqrt(length(bimodal_distribution))
+point_estimate = mean(bimodal_distribution)
+critical_value = 1.96
+print("mean of population (using population mean as point estimate):")
+print(sprintf("95pc confidence for +/- %#.3f of %f", (critical_value * standard_error), point_estimate))
+confidence_interval_lower = point_estimate - (critical_value * standard_error)
+confidence_interval_upper = point_estimate + (critical_value * standard_error)
+print(sprintf("%f < population mean < %f", confidence_interval_lower, confidence_interval_upper))
+
+# Need to have some tests for the below... even manual ones
+
+# When you know the SD of the sample but not the population 
+standard_error = sd(a_sample) / sqrt(length(a_sample))
+point_estimate = mean(a_sample)
+critical_value = max( qt(c(0.025, 0.975), df=length(a_sample)-1) )
+print("confidence interval (using mean):")
+print(sprintf("95pc confidence for +/- %#.3f of %f", (critical_value * standard_error), point_estimate))
+confidence_interval_lower = point_estimate - (critical_value * standard_error)
+confidence_interval_upper = point_estimate + (critical_value * standard_error)
+print(sprintf("%f < population mean < %f", confidence_interval_lower, confidence_interval_upper))
