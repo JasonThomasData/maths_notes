@@ -19,6 +19,7 @@ get_intersection = function(y_int_1, gradient_1, y_int_2=NULL, gradient_2=NULL) 
     }
 }
 
+# In a zero sum game
 # There are two players, min and max
 #
 #                max
