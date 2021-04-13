@@ -1,5 +1,4 @@
-This is a warehouse for algorithms I make.
+This is a warehouse for algorithms/things I learn that are interesting.
 
-I wholly intend to reinvent the wheel, without packages, where possible so that I can learn more
-about algorithms.
+I wholly intend to reinvent the wheel, without packages, where possible so that I can learn more.
 
