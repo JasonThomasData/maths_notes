@@ -269,5 +269,153 @@ x & = & 1.2(9)\\
 
 \end_layout
 
+\begin_layout Standard
+.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Completing the square
+\end_layout
+
+\begin_layout Standard
+Given a quadratic function
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $f(x)=3x^{2}+18x+26$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+in the form 
+\begin_inset Formula $ax^{2}+bx+c$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We can find x by completing the square
+\end_layout
+
+\begin_layout Standard
+A square is in the form: 
+\begin_inset Formula $(x+a)^{2},$
+\end_inset
+
+where 
+\begin_inset Formula $a$
+\end_inset
+
+is known
+\end_layout
+
+\begin_layout Standard
+eg:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $(x+2)^{2}=(x+2)(x+2)=x^{2}+4x+4$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $(x+3)^{2}=(x+3)(x+3)=x^{2}+6x+9$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To complete the square of 
+\begin_inset Formula $f(x)$
+\end_inset
+
+, first, factor out 
+\begin_inset Formula $a$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $3(x^{2}+6x+\frac{26}{3})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Next, find a square but allow 
+\begin_inset Formula $z$
+\end_inset
+
+ to be any value 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $f(x)=x^{2}+6x+z=(x+3)(x+3)=(x+3)^{2}\therefore z=9$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The difference between 26/3 and 9 will need to stand in for the difference
+ between z and the original c 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\frac{26}{3}-\frac{3(9)}{3}=-1$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We now have a function with a single x that we can find the value of:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $f(x)=3(x+3)^{2}-1\equiv3x^{2}+18x+26$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\therefore3(x+3)^{2}=1$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $(x+3)^{2}=\frac{1}{3}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $(x+3)=\pm\sqrt{\frac{1}{3}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $x=\pm\sqrt{\frac{1}{3}}-3$
+\end_inset
+
+
+\end_layout
+
 \end_body
 \end_document
