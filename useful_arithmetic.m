@@ -333,11 +333,33 @@ eg:
 \end_layout
 
 \begin_layout Standard
+\begin_inset Formula $(x+4)^{2}=(x+4)(x+4)=x^{2}+8x+16$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $(x+5)^{2}=(x+5)(x+5)=x^{2}+10x+25$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The pattern above is that when the square is expanded the constant = 
+\begin_inset Formula $(\frac{b}{2})^{2}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 To complete the square of 
 \begin_inset Formula $f(x)$
 \end_inset
 
-, first, factor out 
+, first, put the constant on the right and then factor out 
 \begin_inset Formula $a$
 \end_inset
 
@@ -345,18 +367,14 @@ To complete the square of
 \end_layout
 
 \begin_layout Standard
-\begin_inset Formula $3(x^{2}+6x+\frac{26}{3})$
+\begin_inset Formula $3(x^{2}+6x)=-26$
 \end_inset
 
 
 \end_layout
 
 \begin_layout Standard
-Next, find a square but allow 
-\begin_inset Formula $z$
-\end_inset
-
- to be any value 
+Next, expand the square: 
 \end_layout
 
 \begin_layout Standard
@@ -367,12 +385,7 @@ Next, find a square but allow
 \end_layout
 
 \begin_layout Standard
-The difference between 26/3 and 9 will need to stand in for the difference
- between z and the original c 
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula $\frac{26}{3}-\frac{3(9)}{3}=-1$
+\begin_inset Formula $\therefore f(x)\equiv3(x^{2}+6x+9)=-26\equiv3(x+3)^{2}-1$
 \end_inset
 
 
@@ -380,13 +393,6 @@ The difference between 26/3 and 9 will need to stand in for the difference
 
 \begin_layout Standard
 We now have a function with a single x that we can find the value of:
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula $f(x)=3(x+3)^{2}-1\equiv3x^{2}+18x+26$
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
