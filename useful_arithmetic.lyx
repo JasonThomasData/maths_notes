@@ -304,11 +304,11 @@ We can find x by completing the square
 
 \begin_layout Standard
 A square is in the form: 
-\begin_inset Formula $(x+a)^{2},$
+\begin_inset Formula $(x+y)^{2},$
 \end_inset
 
-where 
-\begin_inset Formula $a$
+where
+\begin_inset Formula $y$
 \end_inset
 
 is known
