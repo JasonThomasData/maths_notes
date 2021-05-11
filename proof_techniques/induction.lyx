@@ -76,6 +76,58 @@
 \begin_body
 
 \begin_layout Standard
+
+\series bold
+Mathematical Induction
+\end_layout
+
+\begin_layout Standard
+This technique is not similar to inductive reasoning.
+ It is an unfortunate name, actually.
+ Induction may be a good way to form conjectures, but is not acceptable
+ in writing proofs.
+\end_layout
+
+\begin_layout Standard
+Due to the well-ordered property of the Natural numbers, something that
+ is true for k and k+1, must also be true for k+2,k+3...
+ hence the notion of 
+\begin_inset Quotes eld
+\end_inset
+
+induction
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+There should be four main steps for this proof, in 
+\series bold
+bold.
+ 
+\series default
+My own notes on the proof are 
+\emph on
+italicised
+\emph default
+.
+\end_layout
+
+\begin_layout Standard
+.
+\end_layout
+
+\begin_layout Standard
+Example:
+\end_layout
+
+\begin_layout Standard
+.
+\end_layout
+
+\begin_layout Standard
 Prove 
 \begin_inset Formula $\forall n\in N^{*},P(n):\sum_{k=1}^{n}i=1+2+3...+n=\frac{n(n+1)}{2}$
 \end_inset
@@ -84,14 +136,16 @@ Prove
 \end_layout
 
 \begin_layout Standard
-Note, we stated the domain, made the proposition and then gave it a name
- for ease of reference
+
+\emph on
+Note, we stated the domain, made the proposition and then gave the proposition
+ the name P for ease of reference
 \end_layout
 
 \begin_layout Standard
 
 \series bold
-Base step p(1)
+Base step for minimum in the domain, P(1):
 \end_layout
 
 \begin_layout Standard
@@ -101,7 +155,7 @@ Base step p(1)
 \begin_layout Standard
 
 \series bold
-Assume for k:
+Assume for k in the domain:
 \end_layout
 
 \begin_layout Standard
@@ -122,55 +176,45 @@ Then we must show that
 \end_layout
 
 \begin_layout Standard
-\begin_inset Formula 
-\[
-P(k+1)=1+2+3...+k+(k+1)=\frac{(k+1)((k+1)+1)}{2}
-\]
-
+\begin_inset Formula $P(k+1)=1+2+3...+k+(k+1)=\frac{(k+1)((k+1)+1)}{2}$
 \end_inset
 
 
 \end_layout
 
 \begin_layout Standard
-\begin_inset Formula 
-\[
-P(k+1)=\hspace{1em}\hspace{1em}\hspace{1em}\frac{k(k+1)}{2}+(k+1)=\frac{(k+1)((k+1)+1)}{2}
-\]
 
+\emph on
+Substitute the RHS from the assumption into the LHS for the statement above.
+ Leave the RHS directly above alone, as this is what we need to make the
+ LHS look like the RHS.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\begin{array}{ccc}
+P(k+1)= & \frac{k(k+1)}{2}+(k+1) & =\frac{(k+1)((k+1)+1)}{2}\\
+P(k+1)= & \frac{k(k+1)}{2}+\frac{2(k+1)}{2} & =\frac{(k+1)((k+1)+1)}{2}\\
+P(k+1)= & \frac{k^{2}+3k+2}{2} & =\frac{(k+1)((k+1)+1)}{2}\\
+P(k+1)= & \frac{(k+1)(k+2)}{2} & =\frac{(k+1)((k+1)+1)}{2}
+\end{array}$
 \end_inset
 
 
 \end_layout
 
 \begin_layout Standard
-\begin_inset Formula 
-\[
-P(k+1)=\hspace{1em}\hspace{1em}\frac{k(k+1)}{2}+\frac{2(k+1)}{2}=\frac{(k+1)((k+1)+1)}{2}
-\]
 
-\end_inset
-
-
+\series bold
+Conclusion
 \end_layout
 
 \begin_layout Standard
-\begin_inset Formula 
-\[
-P(k+1)=\hspace{1em}\hspace{1em}\hspace{1em}\hspace{1em}\hspace{1em}\hspace{1em}\frac{k^{2}+3k+2}{2}=\frac{(k+1)((k+1)+1)}{2}
-\]
-
+By mathematical induction, we prove that 
+\begin_inset Formula $P(n)$
 \end_inset
 
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\[
-P(k+1)=\hspace{1em}\hspace{1em}\hspace{1em}\hspace{1em}\hspace{1em}\frac{(k+1)(k+2)}{2}=\frac{(k+1)((k+1)+1)}{2}
-\]
-
+ is true 
+\begin_inset Formula $\forall n\in N^{*}.$
 \end_inset
 
 
