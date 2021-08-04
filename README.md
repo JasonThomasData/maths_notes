@@ -4,7 +4,15 @@ I wholly intend to reinvent the wheel, without packages, where possible so that 
 
 ### Setup
 
-Install vscode
+I'm switching to use Jupyter Notebooks where possible. These now support Octave and R as well.
 
-Run: `.install_extensions.sh`
+Do:
+
+	virtualenv venv -p python3
+	source /venv/bin/activate
+	
+	pip install -r requirements_octave.txt
+	pip install -r requirements_python.txt
+	./installRNotebook.sh
+
 
