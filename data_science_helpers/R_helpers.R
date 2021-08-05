@@ -1,24 +1,27 @@
-packages = c("nortest", "tidyr", "jsonlite")
+
+"
+packages = c('nortest', 'tidyr', 'jsonlite')
 for(package in packages) {
     if (!require(package, character.only = TRUE)) {
         install.packages(package, dependencies = TRUE)
     }
     library(package, character.only = TRUE)
 }
+"
 
-get_linear_intersection = function(y_int_1, gradient_1, y_int_2=NULL, gradient_2=NULL) {
+get_linear_intersection = function(y_int_1, gradient_1, y_int_2, gradient_2, x_int_2=NULL) {
+    # The second line may have an x_int and then its gradient and y_int are disregarded
     # This is expected to work for linear functions only. Quadratics etc are not gauranteed to have an x intercept
-    if (is.null(vertical) && (is.null(y_int_2) || is.null(gradient_2))) {
-        stop("Given y_int_2 and gradient_2, vertical must be NULL")
+    if(!is.null(x_int_2)) {
+        point_y_1 = gradient_1 * x_int_2 + y_int_1
+        point = c(x_int_2, point_y_1)
+        return (point)
     }
-    if (!is.null(vertical) && (!is.null(y_int_2) || !is.null(gradient_2))) {
-        stop("Given vertical, then y_int_2 and gradient_2 must be NULL")
-    }
-    x = (y_int_2 - y_int_1) / (gradient_1 - gradient_2)
-    y_1 = gradient_1 * x + y_int_1
-    y_2 = gradient_2 * x + y_int_2
-    if (round(y_1, 10) == round(y_2, 10)) {
-        point = c(x, y_1)
+    common_x = (y_int_2 - y_int_1) / (gradient_1 - gradient_2)
+    point_y_1 = gradient_1 * common_x + y_int_1
+    point_y_2 = gradient_2 * common_x + y_int_2
+    if (round(point_y_1, 10) == round(point_y_2, 10)) {
+        point = c(common_x, point_y_1)
         return (point)
     } else {
         print("No intersection") 
