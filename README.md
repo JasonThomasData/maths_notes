@@ -14,5 +14,6 @@ Do:
 	pip install -r requirements_octave.txt
 	pip install -r requirements_python.txt
 	./installRNotebook.sh
+	./enableVimKeys.sh
 
 
