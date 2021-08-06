@@ -1,5 +1,7 @@
 *.jpg
+*.png
 venv/
 .ipynb_checkpoints/
 octave-workspace
+vim_binding/
 
