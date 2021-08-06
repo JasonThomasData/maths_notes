@@ -1,5 +1,4 @@
 
-"
 packages = c('nortest', 'tidyr', 'jsonlite')
 for(package in packages) {
     if (!require(package, character.only = TRUE)) {
@@ -7,7 +6,6 @@ for(package in packages) {
     }
     library(package, character.only = TRUE)
 }
-"
 
 get_linear_intersection = function(y_int_1, gradient_1, y_int_2, gradient_2, x_int_2=NULL) {
     # The second line may have an x_int and then its gradient and y_int are disregarded
@@ -61,14 +59,15 @@ is_normal_distribution = function(data) {
 }
 
 plot_distribution = function(data, label, distribution_is_normal) {
-    jpeg(file = sprintf("%s_distribution.jpg", label))
+    #Uncomment lines to save file locally    
+    #jpeg(file = sprintf("%s_distribution.jpg", label))
     main_heading = sprintf("Histogram of %s", label)
     sub_heading = sprintf("Normal distribution: %s", distribution_is_normal)
     hist(data,
         xlab=label,
         main=main_heading,
         sub=sub_heading)
-    dev.off()
+    #dev.off()
 }
 
 summarise = function(data, row_header) {
