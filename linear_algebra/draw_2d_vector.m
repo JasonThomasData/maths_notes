@@ -18,6 +18,8 @@ function draw_2d_vector(varargin)
         error("A vector's head and tail must be points of the same degree");
     end
 
-    quiver(tail(1), tail(2), head(1), head(2));
+    arrow = quiver(tail(1), tail(2), head(1), head(2));
+    set(arrow, "linewidth", 5);
+    #set(arrow, "maxheadsize", 0.05);
     hold on;
 end
