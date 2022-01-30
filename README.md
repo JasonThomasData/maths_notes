@@ -11,7 +11,7 @@ I'm switching to use Jupyter Notebooks where possible. These now support Octave 
 Do:
 
 	virtualenv venv -p python3
-	source /venv/bin/activate
+	source venv/bin/activate
 	
 	pip install -r requirements_octave.txt
 	pip install -r requirements_python.txt
