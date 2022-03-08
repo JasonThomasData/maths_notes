@@ -1,5 +1,5 @@
 
-packages = c('nortest', 'tidyr', 'jsonlite')
+packages = c('nortest', 'tidyr', 'jsonlite', 'car')
 for(package in packages) {
     if (!require(package, character.only = TRUE)) {
         install.packages(package, dependencies = TRUE)
