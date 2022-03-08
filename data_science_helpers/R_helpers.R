@@ -30,26 +30,29 @@ feature_scale = function(original_data) {
     return ((original_data-min(original_data))/(max(original_data)-min(original_data)))
 }
 
-plot_correlation = function(col_1, col_2, col_1_label, col_2_label, cor_method="pearson") {
+plot_correlation = function(col_1, col_2, col_1_label, col_2_label, cor_method="pearson", save_to_file=FALSE) {
     correlation_summary = cor.test(col_1, col_2, method=cor_method)
-    title = sprintf("Correlation coefficient: %f", correlation_summary$estimate) 
-    jpeg(file = sprintf("%s_correlation.jpg", col_1_label))
+    title = sprintf("Correlation coefficient: %f", correlation_summary$estimate)
+    if (save_to_file) {
+        jpeg(file = sprintf("%s_correlation.jpg", col_1_label))
+    }    
     plot(col_1,
         col_2,
         abline( lm(col_2~col_1)),
         xlab=col_1_label,
         ylab=col_2_label,
         main=title)
-    dev.off()
+    if (save_to_file) {
+        dev.off()
+    }
 }
 
-is_normal_distribution = function(data) {
+is_normal_distribution = function(data, alpha_level = 0.05) {
     sw_test_results = shapiro.test(data)
     sw_p_value = sw_test_results[2]
     ad_test_results = ad.test(data)
     ad_p_value = ad_test_results[2]
-    alpha_level = 0.05
-    if (sw_p_value > alpha_level || ad_p_value > alpha_level) {
+    if (sw_p_value > alpha_level && ad_p_value > alpha_level) {
         print("TRUE")
         TRUE
     } else {
@@ -58,16 +61,19 @@ is_normal_distribution = function(data) {
     }
 }
 
-plot_distribution = function(data, label, distribution_is_normal) {
-    #Uncomment lines to save file locally    
-    #jpeg(file = sprintf("%s_distribution.jpg", label))
+plot_distribution = function(data, label, distribution_is_normal, save_to_file=FALSE) {
+    if (save_to_file) {
+        jpeg(file = sprintf("%s_distribution.jpg", label))
+    }    
     main_heading = sprintf("Histogram of %s", label)
     sub_heading = sprintf("Normal distribution: %s", distribution_is_normal)
     hist(data,
         xlab=label,
         main=main_heading,
         sub=sub_heading)
-    #dev.off()
+    if (save_to_file) {
+        dev.off()
+    }
 }
 
 summarise = function(data, row_header) {
@@ -86,16 +92,20 @@ summarise = function(data, row_header) {
     }
 }
 
-plot_multiline = function(series_1, label_1, series_2, label_2, colour_1="red", colour_2="green", filename="multiline.jpg") {
+plot_multiline = function(series_1, label_1, series_2, label_2, colour_1="red", colour_2="green", filename="multiline.jpg", save_to_file=FALSE) {
     series_1_numbers = tidyr::extract_numeric(series_1)
     series_2_numbers = tidyr::extract_numeric(series_2)
     y_upper_limit = max(c(series_1_numbers, series_2_numbers))
-    jpeg(file = filename)
+    if (save_to_file) {    
+        jpeg(file = filename)
+    }
     plot(series_1_numbers, ylim=c(0,y_upper_limit), type="l", col=colour_1, ylab="Y")
     lines(series_2_numbers, col=colour_2)
     legend("topleft", legend=c(label_1, label_2),
         col=c(colour_1, colour_2), lty=1:1, cex=0.8)
-    dev.off()
+    if (save_to_file) { 
+        dev.off()
+    }
 }
 
 all_are_numeric = function(series) {
