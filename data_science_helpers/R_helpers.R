@@ -30,17 +30,17 @@ feature_scale = function(original_data) {
     return ((original_data-min(original_data))/(max(original_data)-min(original_data)))
 }
 
-plot_correlation = function(col_1, col_2, col_1_label, col_2_label, cor_method="pearson", save_to_file=FALSE) {
-    correlation_summary = cor.test(col_1, col_2, method=cor_method)
+plot_correlation = function(dependent, independent, dep_label, ind_label, cor_method="pearson", save_to_file=FALSE) {
+    correlation_summary = cor.test(dependent, independent, method=cor_method)
     title = sprintf("Correlation coefficient: %f", correlation_summary$estimate)
     if (save_to_file) {
-        jpeg(file = sprintf("%s_correlation.jpg", col_1_label))
+        jpeg(file = sprintf("%s_correlation.jpg", ind_label))
     }    
-    plot(col_1,
-        col_2,
-        abline( lm(col_2~col_1)),
-        xlab=col_1_label,
-        ylab=col_2_label,
+    plot(independent,
+        dependent,
+        abline( lm(dependent~independent)),
+        xlab=ind_label,
+        ylab=dep_label,
         main=title)
     if (save_to_file) {
         dev.off()
