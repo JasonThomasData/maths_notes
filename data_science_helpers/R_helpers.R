@@ -48,6 +48,7 @@ plot_correlation = function(dependent, independent, dep_label, ind_label, cor_me
 }
 
 is_normal_distribution = function(data, alpha_level = 0.05) {
+    # These tests use H_0 that population is normal, so p-value < alpha means you reject and say the population is not normal
     sw_test_results = shapiro.test(data)
     sw_p_value = sw_test_results[2]
     ad_test_results = ad.test(data)
