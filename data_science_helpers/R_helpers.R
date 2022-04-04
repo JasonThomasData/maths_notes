@@ -1,5 +1,8 @@
 
 packages = c('nortest', 'tidyr', 'jsonlite', 'car')
+# If you can't find a pacakge, check you spelled it correctly:
+# which(c("PACKAGE NAME"), available.packages())
+# If it is there and you still get errors, run R in terminal and run commands there to get verbose lines
 for(package in packages) {
     if (!require(package, character.only = TRUE)) {
         install.packages(package, dependencies = TRUE)
