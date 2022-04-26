@@ -19,3 +19,7 @@ Do:
 	./enableVimKeys.sh
 
 
+### Search .ipynb files
+
+grep -r --include \*.ipynb "SEARCH TERM" .
+
