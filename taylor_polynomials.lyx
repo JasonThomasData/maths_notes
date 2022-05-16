@@ -93,5 +93,13 @@
 let a=0.5, and the functions are exactly the same! Why?
 \end_layout
 
+\begin_layout Standard
+...
+\end_layout
+
+\begin_layout Standard
+Today I learn that this is an extension of sorts of linearisation.
+\end_layout
+
 \end_body
 \end_document
