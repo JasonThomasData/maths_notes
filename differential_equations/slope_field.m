@@ -54,10 +54,10 @@ function slope_field(varargin)
     Y_space = linspace(y_space_min, y_space_max);
     differential_function_grid = DIFFERENTIAL_EQUATION(X_grid, Y_grid, 0); # These are the values of y' = dy/dx
 
-    #Unsure how this works, need to study it, see - 
-    L = sqrt(1 + differential_function_grid.^2);
-    U = 1./L;
-    V = differential_function_grid./L;
+    # Look up normal vectors - https://www.cfm.brown.edu/people/dobrush/am33/Matlab/ch2/slopefields.html
+    normal = sqrt(1 + differential_function_grid.^2);
+    U = 1./normal;
+    V = differential_function_grid./normal;
 
     # The field
     quiver(X_grid, Y_grid, U, V, 0.5, "k");
