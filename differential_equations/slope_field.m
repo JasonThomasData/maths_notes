@@ -47,7 +47,7 @@ function slope_field(varargin)
     y_space_min = SPACE_LIMITS(3);
     y_space_max = SPACE_LIMITS(4);
 
-    tick = abs(x_space_max - x_space_min) / 10;
+    tick = abs(x_space_max - x_space_min) / 15;
 
     [X_grid, Y_grid] = meshgrid(x_space_min:tick:x_space_max, y_space_min:tick:y_space_max);
     X_space = linspace(x_space_min, x_space_max);
@@ -66,15 +66,16 @@ function slope_field(varargin)
     line([x_space_min x_space_max], [0 0], "linestyle", ":", "color", "k");
     line([0 0], [y_space_min y_space_max], "linestyle", ":", "color", "k");
 
+    if (isa(PARTICULAR_SOLUTION, 'function_handle') && ~isna(INITIAL_CONDITION))
+        delete (findobj ("tag", "legend"))
+        evaluated_solution = PARTICULAR_SOLUTION(X_space, Y_space);
+        # Listing the vis in this way allows for avoiding duplicates
+        p1 = plot(X_space, evaluated_solution, "r");
+        p2 = plot(INITIAL_CONDITION(1), INITIAL_CONDITION(2), "mo");
+        legend([p1 p2], 'Particular Solution', 'Initial Condition');
+    end
+
     axis([x_space_min x_space_max y_space_min y_space_max]);
     axis square;
 
-    if (isa(PARTICULAR_SOLUTION, 'function_handle'))
-        evaluated_solution = PARTICULAR_SOLUTION(X_space, Y_space);
-        plot(X_space, evaluated_solution, "r;particular solution;")
-    end
-
-    if (~isna(INITIAL_CONDITION))
-        plot(INITIAL_CONDITION(1), INITIAL_CONDITION(2), "mo;initial condition;")
-    end
 end
