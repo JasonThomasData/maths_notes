@@ -8,7 +8,7 @@ virtualenv venv -p python3
 source venv/bin/activate
 
 echo "PYTHON INSTALLS"
-pip install jupyter octave-kernel
+pip install jupyter octave-kernel sympy
 
 echo "R INSTALLS"
 sudo apt install r-base
