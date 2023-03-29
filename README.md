@@ -6,18 +6,11 @@ If you happen to stumble on this then know that I am not yet a qualified mathema
 
 ### Setup
 
-I'm switching to use Jupyter Notebooks where possible. These now support Octave and R as well.
+`./instal.sh`
 
-Do:
+### PDF
 
-	virtualenv venv -p python3
-	source venv/bin/activate
-	
-	pip install -r requirements_octave.txt
-	pip install -r requirements_python.txt
-	./installRNotebook.sh
-	./enableVimKeys.sh
-
+The only reliable way to save as a PDF that I have found is to use the browser's print to pdf function.
 
 ### Search .ipynb files
 

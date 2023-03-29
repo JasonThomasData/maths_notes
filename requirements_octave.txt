@@ -1,4 +1,0 @@
-sympy==1.4
-jupyter
-octave-kernel
-pyppeteer

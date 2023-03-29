@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 
+sudo apt install liboctave-dev
 sudo apt install octave
+
+# Need this for pdf exports
+sudo apt install texlive-xetex texlive-fonts-recommended texlive-plain-generic
 
 sudo apt install virtualenv
 echo "CREATE, ACTIVATE VENV"
@@ -8,7 +12,7 @@ virtualenv venv -p python3
 source venv/bin/activate
 
 echo "PYTHON INSTALLS"
-pip install jupyter octave-kernel sympy
+pip install -r requirements.txt
 
 echo "R INSTALLS"
 sudo apt install r-base
@@ -17,7 +21,6 @@ echo "r = getOption('repos'); r['CRAN'] = 'https://cran.csiro.au/'; options(repo
 echo "IRkernel::installspec()" | sudo  --vanilla
 
 echo "SETUP VIM KEYS"
-
 # Create required directory in case (optional)
 mkdir -p $(jupyter --data-dir)/nbextensions
 # Clone the repository

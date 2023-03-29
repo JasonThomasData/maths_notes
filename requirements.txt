@@ -1,0 +1,10 @@
+sympy==1.4
+jupyter
+octave-kernel
+pyppeteer
+nbconvert
+nbconvert[qtpdf]	
+matplotlib
+numpy
+graphviz
+
