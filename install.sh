@@ -6,6 +6,8 @@ sudo apt install octave
 # Need this for pdf exports
 sudo apt install texlive-xetex texlive-fonts-recommended texlive-plain-generic
 
+# pkg install -forge ocl # required for ode 45
+
 sudo apt install virtualenv
 echo "CREATE, ACTIVATE VENV"
 virtualenv venv -p python3
