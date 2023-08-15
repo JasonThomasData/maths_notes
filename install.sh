@@ -7,6 +7,7 @@ sudo apt install octave
 sudo apt install texlive-xetex texlive-fonts-recommended texlive-plain-generic
 
 # pkg install -forge ocl # required for ode 45
+# pkg install -forge optim # required for LP 
 
 sudo apt install virtualenv
 echo "CREATE, ACTIVATE VENV"
