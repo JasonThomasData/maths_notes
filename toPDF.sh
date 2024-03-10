@@ -5,5 +5,5 @@
 
 notebook_file=$1
 
-jupyter nbconvert --to webpdf $notebook_file --allow-chromium-download
+jupyter nbconvert --to webpdf $notebook_file --allow-chromium-download --WebPDFExporter.disable_sandbox=True
 
