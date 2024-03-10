@@ -1,0 +1,6 @@
+q1 - identify largest possible domain
+	- In the denominator, we find issues where the denom is 0. The denominator is a cubic, so it will have some real roots. Those are the values of the function which would be 0.
+	- The formula is prohibitively long so I'll just provide the roots here: 3, -2, 0
+q4 - to show discontinuity, prove the limit doesn't exist for the top function. Then show that if it did it couldn't be the second line's value 
+q5 - saw something like this either in a Monday or a Tuesday session.
+	- It's in Q/A session 7, 20:00 or so
