@@ -3,6 +3,7 @@ upperBound = 1.2;
 
 init = [1;0];
 
+pkg load symbolic;
 syms x  y;
 
 u = [1;
