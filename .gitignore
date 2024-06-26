@@ -4,4 +4,6 @@ venv/
 octave-workspace
 vim_binding/
 *_RMIT/
+DSTG/
+DSTG/*
 
