@@ -1,0 +1,11 @@
+
+model {
+  for ( i in 1:Ntotal ) {
+    y[i] ~ dnorm( mu[type[i]], 1/sigma.sq[type[i]] )
+  }
+  mu[1] ~ dnorm(7500 , 1/5) # MTB is coded 1
+  mu[2] ~ dnorm(6000 , 1/5) # MTB is coded 2
+  sigma.sq[1] ~ dgamma(25, 22.5)
+  sigma.sq[2] ~ dgamma(25, 22.5)
+}
+
