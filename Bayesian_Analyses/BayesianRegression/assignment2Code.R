@@ -8,7 +8,7 @@ library(runjags)
 source("DBDA2E-utilities.R")
 source("providedCode.R")
 
-myData <- read.csv("Assignment2PropertyPrices.csv")
+myData <- read.csv("Assignment2PropertyPricesSmaller3.csv")
 #myData$Type <- as.factor(myData$PropertyType)
 # Above, I think that since property type is already numeric then it can stay as-is
 head(myData)
@@ -35,14 +35,11 @@ dataList <- list(
 
 # JAGS failed without initial values, so these were set:
 initsList <- list(
-  zbeta0 = 2000,
-  zbeta = c(mean(x[,1])/sd(x[,1]), 
-            mean(x[,2])/sd(x[,2]), 
-            mean(x[,3])/sd(x[,3]), 
-            mean(x[,4])/sd(x[,4]), 
-            mean(x[,5])),
+  zbeta0 = 1000,
+  zbeta = c(10,10,10,10,10),
   var = 12000000
 )
+# But it seems that with enough adaptation steps, we don't need it.
 
 # allow jags to determine initialising values
 
@@ -71,33 +68,31 @@ data {
   }
 
   # Specify the values of indepdenent variables for prediction
-  # THERE IS A MATRIX OF VALUES TO TEST, CAN IT BE A MULTI ARRAY?
-  
-  #xPred[1,1] <- 600
-  #xPred[2,1] <- 800
-  #xPred[3,1] <- 1500
-  #xPred[4,1] <- 2500
-  #xPred[5,1] <- 250
-  #xPred[1,2] <- 2
-  #xPred[2,2] <- 3
-  #xPred[3,2] <- 2
-  #xPred[4,2] <- 5
-  #xPred[5,2] <- 3
-  #xPred[1,3] <- 2
-  #xPred[2,3] <- 1
-  #xPred[3,3] <- 1
-  #xPred[4,3] <- 4
-  #xPred[5,3] <- 2
-  # xPred[1,4] <- 1
-  #xPred[2,4] <- 2
-  # xPred[3,4] <- 1
-  # xPred[4,4] <- 4
-  # xPred[5,4] <- 1
-  # xPred[1,5] <- 1 # unit
-  # xPred[2,5] <- 0
-  # xPred[3,5] <- 0
-  # xPred[4,5] <- 0
-  # xPred[5,5] <- 1 # unit
+  xPred[1,1] <- 600
+  xPred[2,1] <- 800
+  xPred[3,1] <- 1500
+  xPred[4,1] <- 2500
+  xPred[5,1] <- 250
+  xPred[1,2] <- 2
+  xPred[2,2] <- 3
+  xPred[3,2] <- 2
+  xPred[4,2] <- 5
+  xPred[5,2] <- 3
+  xPred[1,3] <- 2
+  xPred[2,3] <- 1
+  xPred[3,3] <- 1
+  xPred[4,3] <- 4
+  xPred[5,3] <- 2
+  xPred[1,4] <- 1
+  xPred[2,4] <- 2
+  xPred[3,4] <- 1
+  xPred[4,4] <- 4
+  xPred[5,4] <- 1
+  xPred[1,5] <- 1 # unit
+  xPred[2,5] <- 0
+  xPred[3,5] <- 0
+  xPred[4,5] <- 0
+  xPred[5,5] <- 1 # unit
 }
 # Specify the model for scaled data:
 model {
@@ -106,7 +101,7 @@ model {
     mu[i] <- zbeta0 + sum( zbeta[1:Nx] * zx[i,1:Nx] ) 
   }
 
-  # intercept prior - Assume prior weight average, which should be 1
+  # intercept prior - Assume prior weight is average, which should be 1 in std norm
   zbeta0 ~ dnorm( 0 , 1 ) 
   
   # other betas - since these are standard, then sd=1 would be standard.
@@ -128,11 +123,9 @@ model {
 
   # Compute predictions at every step of the MCMC
   
-  # for ( j in 1:Nx ) {
-  # TRY A RECUCED SET FIRST
-  #for ( j in 1:5 ) {
-  #  pred[j] <- beta0 + beta[1] * xPred[1,j] + beta[2] * xPred[2,j] + beta[3] * xPred[3,j] + beta[4] * xPred[4,j] + beta[5] * xPred[5,j]
-  #}
+  for ( i in 1:5 ) {
+    pred[i] <- beta0 + beta[1] * xPred[i,1] + beta[2] * xPred[i,2] + beta[3] * xPred[i,3] + beta[4] * xPred[i,4] + beta[5] * xPred[i,5]
+  }
 }
 " # close quote for modelString
 # Write out modelString to a text file
@@ -140,11 +133,11 @@ writeLines( modelString , con="TEMPmodel.txt" )
 
 
 
-adaptSteps = 500  # Number of steps to "tune" the samplers
-burnInSteps = 5000
-nChains = 2 
-thinSteps = 5
-numSavedSteps = 10000
+adaptSteps = 4000  # Number of steps to "tune" the samplers
+burnInSteps = 4000
+nChains = 4
+thinSteps = 10
+numSavedSteps = 5000
 nIter = ceiling( ( numSavedSteps * thinSteps ) / nChains )
 
 
@@ -154,7 +147,7 @@ runJagsOut <- run.jags( method="parallel" ,
                         model="TEMPmodel.txt" ,
                         monitor=c( "zbeta0" ,  "zbeta" , "beta0" ,  "beta" ,  "tau", "zVar", "pred")  ,
                         data=dataList ,
-                        inits=initsList ,
+                        #inits=initsList ,
                         n.chains=nChains ,
                         adapt=adaptSteps ,
                         burnin=burnInSteps ,
@@ -170,9 +163,10 @@ show(elapsedTime)
 save.image(file='MultRegChainsR2.RData')
 # load('MultRegChainsR2.RData')
 
-diagMCMC( codaSamples , parName="beta0" )
-diagMCMC( codaSamples , parName="beta[1]" )
-diagMCMC( codaSamples , parName="beta[2]" )
-diagMCMC( codaSamples , parName="beta[3]" )
-diagMCMC( codaSamples , parName="beta[4]" )
+diagMCMC( codaSamples , parName="zbeta0" )
+diagMCMC( codaSamples , parName="zbeta[1]" )
+diagMCMC( codaSamples , parName="zbeta[2]" )
+diagMCMC( codaSamples , parName="zbeta[3]" )
+diagMCMC( codaSamples , parName="zbeta[4]" )
+diagMCMC( codaSamples , parName="zbeta[5]" )
 diagMCMC( codaSamples , parName="tau" )
