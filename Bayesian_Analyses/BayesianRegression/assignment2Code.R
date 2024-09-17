@@ -8,16 +8,15 @@ library(runjags)
 source("DBDA2E-utilities.R")
 source("providedCode.R")
 
-myData <- read.csv("Assignment2PropertyPricesSmaller3.csv")
-#myData$Type <- as.factor(myData$PropertyType)
-# Above, I think that since property type is already numeric then it can stay as-is
-head(myData)
+myData <- read.csv("Assignment2PropertyPrices.csv")
+myData <- myData[sample(nrow(myData)),] # shuffle the data
+myData <- head(myData, 5000)
 
 # THE DATA.
 y = myData[,"SalePrice.100K."]
 x = as.matrix(myData[,c("Area","Bedrooms","Bathrooms","CarParks","PropertyType")])
 
-cat("\nCORRELATION MATRIX OF PREDICTORS:\n ")
+cat("\nCORRELATION MATRIX OF PREDICTORcS:\n ")
 show( round(cor(x),3) )
 cat("\n")
 
@@ -33,25 +32,26 @@ dataList <- list(
   Ntotal = dim(x)[1]  # observation count
 )
 
-# JAGS failed without initial values, so these were set:
-initsList <- list(
-  zbeta0 = 1000,
-  zbeta = c(10,10,10,10,10),
-  var = 12000000
-)
-# But it seems that with enough adaptation steps, we don't need it.
-
 # allow jags to determine initialising values
 
 # THE MODEL.
 modelString = "
 # Standardize the data:
 data {
-  priorInfo[1] <- 90
-  priorInfo[2] <- 100000
-  priorInfo[3] <- 120000
-  priorInfo[4] <- 0
-  priorInfo[5] <- -150000 # unit = 1, house = 0, unit sells $150000 less
+  
+  priorMu0   <- 0
+  priorMu[1] <- 90
+  priorMu[2] <- 100000
+  priorMu[3] <- 120000
+  priorMu[4] <- 0
+  priorMu[5] <- -150000 # unit = 1, house = 0, unit sells $150000 less
+
+  priorVar0   <- 1
+  priorVar[1] <- 0.01 # very strong knowledge
+  priorVar[2] <- 1    # weak knowledge
+  priorVar[3] <- 10   # no expert knowledge
+  priorVar[4] <- 0.1
+  priorVar[5] <- 0.1
 
   ysd <- sd(y)
   for ( i in 1:Ntotal ) {
@@ -61,13 +61,16 @@ data {
     xsd[j] <-   sd(x[,j])
     for ( i in 1:Ntotal ) {
       zx[i,j] <- ifelse( j == Nx , x[i,j] , x[i,j] / xsd[j] ) # last var is dummy, don't standardise it
-      # zx[i,j] <- x[i,j] / xsd[j]
     }
-    zpriorInfo[j] <- ifelse( j == Nx , priorInfo[j] , priorInfo[j] / xsd[j] )
-    # zpriorInfo[j] <- priorInfo[j] / xsd[j]
+    
+    # now standardise the prior mean and variance for this variable j
+    # but not for the last variable, because it is categorical binary
+    zPriorMu[j] <- ifelse( j == Nx , priorMu[j] , priorMu[j] / xsd[j] )
+    zPriorVar[j] <- ifelse( j == Nx , priorVar[j] , priorVar[j] / xsd[j] )
   }
 
   # Specify the values of indepdenent variables for prediction
+  # There are 5 predictions, and 5 values for each (over 5 variables)
   xPred[1,1] <- 600
   xPred[2,1] <- 800
   xPred[3,1] <- 1500
@@ -88,38 +91,37 @@ data {
   xPred[3,4] <- 1
   xPred[4,4] <- 4
   xPred[5,4] <- 1
-  xPred[1,5] <- 1 # unit
+  xPred[1,5] <- 1
   xPred[2,5] <- 0
   xPred[3,5] <- 0
   xPred[4,5] <- 0
-  xPred[5,5] <- 1 # unit
+  xPred[5,5] <- 1
 }
 # Specify the model for scaled data:
 model {
   for ( i in 1:Ntotal ) {
-    zy[i] ~ dgamma( (mu[i]^2)/zVar , mu[i]/zVar ) 
-    mu[i] <- zbeta0 + sum( zbeta[1:Nx] * zx[i,1:Nx] ) 
+    zy[i] ~ dgamma( (mu[i]^2)/zVar , mu[i]/zVar )
+    mu[i] <- zbeta0 + sum( zbeta[1:Nx] * zx[i,1:Nx] )
   }
 
-  # intercept prior - Assume prior weight is average, which should be 1 in std norm
-  zbeta0 ~ dnorm( 0 , 1 ) 
+  # intercept prior
+  zbeta0 ~ dnorm( priorMu0 , 1/priorVar0^(2) )
   
   # other betas - since these are standard, then sd=1 would be standard.
-  zbeta[1] ~ dnorm(zpriorInfo[1], 1/4)
-  zbeta[2] ~ dnorm(zpriorInfo[2], 2)
-  zbeta[3] ~ dnorm(zpriorInfo[3], 6)
-  zbeta[4] ~ dnorm(zpriorInfo[4], 1/2)
-  zbeta[5] ~ dnorm(zpriorInfo[5], 1/4) 
-  
-  # prior for sigma^2, used for the final gamma
-  zVar ~ dgamma( 0.01 , 0.00100 )
+  zbeta[1] ~ dnorm(zPriorMu[1], 1/zPriorVar[1]^(2))
+  zbeta[2] ~ dnorm(zPriorMu[2], 1/zPriorVar[2]^(2))
+  zbeta[3] ~ dnorm(zPriorMu[3], 1/zPriorVar[3]^(2))
+  zbeta[4] ~ dnorm(zPriorMu[4], 1/zPriorVar[4]^(2))
+  zbeta[5] ~ dnorm(zPriorMu[5], 1/zPriorVar[5]^(2))
+
+  # prior for var in final gamma distribution, assume no information
+  zVar ~ dgamma( 0.01 , 0.01 )
+
   # Transform to original scale:
-  
   beta[1:(Nx-1)] <- ( zbeta[1:(Nx-1)] / xsd[1:(Nx-1)] ) * ysd
   beta[Nx] <- zbeta[Nx] * ysd
-  # beta[1:Nx] <- ( zbeta[1:Nx] / xsd[1:Nx] ) * ysd
   beta0 <- zbeta0*ysd
-  tau <- zVar * (ysd)^2
+  tau <- zVar*ysd # parameter for gamma
 
   # Compute predictions at every step of the MCMC
   
@@ -128,24 +130,22 @@ model {
   }
 }
 " # close quote for modelString
-# Write out modelString to a text file
 writeLines( modelString , con="TEMPmodel.txt" )
 
+adaptSteps = 3000    # Number of steps to "tune" the samplers
+burnInSteps = 4000   # Burn-in gives time for chains to overlap
+nChains = 2
+thinSteps = 12       # Reduces autocorrelation
+numSavedSteps = 4000 # Save after thinning
 
-
-adaptSteps = 4000  # Number of steps to "tune" the samplers
-burnInSteps = 4000
-nChains = 4
-thinSteps = 10
-numSavedSteps = 5000
-nIter = ceiling( ( numSavedSteps * thinSteps ) / nChains )
-
+##############################################
+# RUN MCMC
 
 # Parallel run - instead of jags.model and burn-in
 startTime = proc.time()
 runJagsOut <- run.jags( method="parallel" ,
                         model="TEMPmodel.txt" ,
-                        monitor=c( "zbeta0" ,  "zbeta" , "beta0" ,  "beta" ,  "tau", "zVar", "pred")  ,
+                        monitor=c( "zbeta0" ,  "zbeta" , "beta0" ,  "beta" ,  "tau", "zVar", "pred"),
                         data=dataList ,
                         #inits=initsList ,
                         n.chains=nChains ,
@@ -158,15 +158,43 @@ stopTime = proc.time()
 elapsedTime = stopTime - startTime
 show(elapsedTime)
 
-# Run with adaptSteps = 500; burnInSteps = 10000; nChains = 2; thinSteps = 23; numSavedSteps = 5000; 115000 iterations
-# Elapsed time: 597.725 sec
-save.image(file='MultRegChainsR2.RData')
-# load('MultRegChainsR2.RData')
+# save.image(file='MultReg_Assignment2.RData')
+# load('MultReg_Assignment2.RData')
 
-diagMCMC( codaSamples , parName="zbeta0" )
-diagMCMC( codaSamples , parName="zbeta[1]" )
-diagMCMC( codaSamples , parName="zbeta[2]" )
-diagMCMC( codaSamples , parName="zbeta[3]" )
-diagMCMC( codaSamples , parName="zbeta[4]" )
-diagMCMC( codaSamples , parName="zbeta[5]" )
+##############################################
+# DIAGNOSIS CHECKS
+
+diagMCMC( codaSamples , parName="beta0" )
+diagMCMC( codaSamples , parName="beta[1]" )
+diagMCMC( codaSamples , parName="beta[2]" )
+diagMCMC( codaSamples , parName="beta[3]" )
+diagMCMC( codaSamples , parName="beta[4]" )
+diagMCMC( codaSamples , parName="beta[5]" )
 diagMCMC( codaSamples , parName="tau" )
+
+##############################################
+# SUMMARISE AND VIEW THE POSTERIORS
+
+compVal <- data.frame("beta0"   = summary(codaSamples)$statistics[,"Mean"][["beta0"]],
+                      "beta[1]" = summary(codaSamples)$statistics[,"Mean"][["beta[1]"]],
+                      "beta[2]" = summary(codaSamples)$statistics[,"Mean"][["beta[2]"]],
+                      "beta[3]" = summary(codaSamples)$statistics[,"Mean"][["beta[3]"]],
+                      "beta[4]" = summary(codaSamples)$statistics[,"Mean"][["beta[4]"]], 
+                      "beta[5]" = summary(codaSamples)$statistics[,"Mean"][["beta[5]"]],
+                      "tau"     = summary(codaSamples)$statistics[,"Mean"][["tau"]],
+                      "pred[1]" = summary(codaSamples)$statistics[,"Mean"][["pred[1]"]],
+                      "pred[2]" = summary(codaSamples)$statistics[,"Mean"][["pred[2]"]],
+                      "pred[3]" = summary(codaSamples)$statistics[,"Mean"][["pred[3]"]],
+                      "pred[4]" = summary(codaSamples)$statistics[,"Mean"][["pred[4]"]],
+                      "pred[5]" = summary(codaSamples)$statistics[,"Mean"][["pred[5]"]],
+                      check.names=FALSE)
+
+summaryInfo <- smryMCMC(codaSamples=codaSamples,
+                        compVal=compVal)
+print(summaryInfo)
+
+plotMCMC_HD(codaSamples=codaSamples,
+            data=myData,
+            xName=c("Area","Bedrooms","Bathrooms","CarParks","PropertyType") , 
+            yName="SalePrice.100K.",
+            compVal = compVal)

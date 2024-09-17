@@ -48,8 +48,8 @@ plotMCMC_HD = function( codaSamples , data , xName="x" , yName="y" ,
   beta  = mcmcMat[,grep("^beta$|^beta\\[",colnames(mcmcMat))]
   if ( ncol(x)==1 ) { beta = matrix( beta , ncol=1 ) }
   tau = mcmcMat[,"tau"]
-  pred = mcmcMat[,"pred"] # Added by Demirhan
-  
+  pred1 = mcmcMat[,"pred[1]"] # Added by Demirhan
+  pred2 = mcmcMat[,"pred[2]"] # Added by Demirhan
   #-----------------------------------------------------------------------------
   # Compute R^2 for credible parameters:
   YcorX = cor( y , x ) # correlation of y with each x predictor
@@ -123,6 +123,7 @@ plotMCMC_HD = function( codaSamples , data , xName="x" , yName="y" ,
   for ( bIdx in 1:ncol(beta) ) {
     panelCount = decideOpenGraph( panelCount , saveName=paste0(saveName,"PostMarg") )
     if (!is.na(compVal[paste0("beta[",bIdx,"]")])) {
+      print(c("Plotting beta", bIdx))
       histInfo = plotPost( beta[,bIdx] , cex.lab = 1.75 , showCurve=showCurve ,
                            xlab=bquote(beta[.(bIdx)]) , main=xName[bIdx],
                            compVal = as.numeric(compVal[paste0("beta[",bIdx,"]")]))
@@ -134,9 +135,15 @@ plotMCMC_HD = function( codaSamples , data , xName="x" , yName="y" ,
   panelCount = decideOpenGraph( panelCount , saveName=paste0(saveName,"PostMarg") )
   histInfo = plotPost( tau , cex.lab = 1.75 , showCurve=showCurve ,
                        xlab=bquote(tau) , main=paste("Scale") )
-  panelCount = decideOpenGraph( panelCount , saveName=paste0(saveName,"PostMarg") )
-  histInfo = plotPost( pred , cex.lab = 1.75 , showCurve=showCurve ,
-                       xlab="pred" , main="Prediction" ) # Added by Demirhan
+  # panelCount = decideOpenGraph( panelCount , saveName=paste0(saveName,"PostMarg") )
+  # histInfo = plotPost( Rsq , cex.lab = 1.75 , showCurve=showCurve ,
+  #                      xlab=bquote(R^2) , main=paste("Prop Var Accntd") )
+  #panelCount = decideOpenGraph( panelCount ,  saveName=paste0(saveName,"PostMarg") )
+  #histInfo = plotPost( pred1 , cex.lab = 1.75 , showCurve=showCurve ,
+  #                      xlab="pred1" , main="Prediction 1" ) # Added by Demirhan
+  #panelCount = decideOpenGraph( panelCount ,  saveName=paste0(saveName,"PostMarg") )
+  #histInfo = plotPost( pred2 , cex.lab = 1.75 , showCurve=showCurve ,
+  #                     xlab="pred2" , main="Prediction 2" ) # Added by Demirhan
   
   # Standardized scale:
   panelCount = 1
@@ -151,6 +158,9 @@ plotMCMC_HD = function( codaSamples , data , xName="x" , yName="y" ,
   panelCount = decideOpenGraph( panelCount , saveName=paste0(saveName,"PostMargZ") )
   histInfo = plotPost( zVar , cex.lab = 1.75 , showCurve=showCurve ,
                        xlab=bquote(z*tau) , main=paste("Scale") )
+  # panelCount = decideOpenGraph( panelCount , saveName=paste0(saveName,"PostMargZ") )
+  # histInfo = plotPost( Rsq , cex.lab = 1.75 , showCurve=showCurve ,
+  #                      xlab=bquote(R^2) , main=paste("Prop Var Accntd") )
   panelCount = decideOpenGraph( panelCount , finished=TRUE , saveName=paste0(saveName,"PostMargZ") )
   
   #-----------------------------------------------------------------------------

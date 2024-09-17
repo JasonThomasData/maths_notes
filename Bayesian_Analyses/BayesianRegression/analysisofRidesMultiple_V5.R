@@ -319,9 +319,8 @@ compVal <- data.frame("beta0" = 10, "beta[1]" = NA, "beta[2]" = 5, "beta[3]" = N
 summaryInfo <- smryMCMC( codaSamples = codaSamples , compVal = compVal )
 print(summaryInfo)
 
-
 plotMCMC_HD( codaSamples = codaSamples , data = myData, xName=c("Distance.km.","ElevationGain.m.","AverageWatts","Type") , 
-          yName="Elapsed.Time.sec.", compVal = compVal)
+             yName="Elapsed.Time.sec.", compVal = compVal)
 
 # ============ Predictive check ============
 coefficients <- summaryInfo[7:11,3] # Get the model coefficients out

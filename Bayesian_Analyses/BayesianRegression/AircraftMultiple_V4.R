@@ -312,14 +312,17 @@ runJagsOut <- run.jags( method="parallel" ,
                         sample=numSavedSteps ,
                         thin=thinSteps , summarise=FALSE , plots=FALSE )
 codaSamples = as.mcmc.list( runJagsOut )
+save.image(file="multiReg_AircraftExample")
 
 diagMCMC( codaSamples , parName="beta0" )
 diagMCMC( codaSamples , parName="beta[1]" )
 diagMCMC( codaSamples , parName="beta[2]" )
 diagMCMC( codaSamples , parName="beta[3]" )
 diagMCMC( codaSamples , parName="beta[4]" )
+diagMCMC( codaSamples , parName="pred[1]" )
+diagMCMC( codaSamples , parName="pred[2]" )
 
-# save.image(file="10KBurnin_200KSavedIter_2Thin.RData")
+
 # save.image(file="1KBurnin_20KSavedIter_21Thin.RData")
 # load(file="10KBurnin_200KSavedIter_2Thin.RData") 
 # load(file="1KBurnin_20KSavedIter_21Thin.RData")
@@ -380,6 +383,7 @@ print(summaryInfo)
 
 plotMCMC_HD( codaSamples = codaSamples , data = myData, xName=c("X1","X2","X3","X4") , 
           yName="Y", compVal = compVal)
+
 
 # ============ Predictive check ============
 coefficients <- summaryInfo[7:11,3] # Get the model coefficients out
