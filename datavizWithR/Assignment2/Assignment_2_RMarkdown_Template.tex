@@ -1,0 +1,420 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Assignment 2},
+  pdfauthor={Jason Thomas (s3907634)},
+  colorlinks=true,
+  linkcolor={Maroon},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={blue},
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Assignment 2}
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+\subtitle{Deconstruct, Reconstruct Web Report}
+\author{Jason Thomas (s3907634)}
+\date{}
+
+\begin{document}
+\maketitle
+
+\subsubsection{Assessment declaration
+checklist}\label{assessment-declaration-checklist}
+
+Please carefully read the statements below and check each box if you
+agree with the declaration. If you do not check all boxes, your
+assignment will not be marked. If you make a false declaration on any of
+these points, you may be investigated for academic misconduct. Students
+found to have breached academic integrity may receive official warnings
+and/or serious academic penalties. Please read more about academic
+integrity
+\href{https://www.rmit.edu.au/students/student-essentials/assessment-and-exams/academic-integrity}{here}.
+If you are unsure about any of these points or feel your assessment
+might breach academic integrity, please contact your course coordinator
+for support. It is important that you DO NOT submit any assessment until
+you can complete the declaration truthfully.
+
+\textbf{By checking the boxes below, I declare the following:}
+
+\begin{itemize}
+\item
+  I have not impersonated, or allowed myself to be impersonated by, any
+  person for the purposes of this assessment
+\item
+  This assessment is my original work and no part of it has been copied
+  from any other source except where due acknowledgement is made. Due
+  acknowledgement means the following:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    The source is correctly referenced in a reference list
+  \item
+    The work has been paraphrased or directly quoted
+  \item
+    A citation to the original work's reference has been included where
+    the copied work appears in the assessment.
+  \end{itemize}
+\item
+  No part of this assessment has been written for me by any other person
+  except where such collaboration has been authorised by the
+  lecturer/teacher concerned.
+\item
+  I have not used generative ``AI'' tools for the purposes of this
+  assessment.
+\item
+  Where this work is being submitted for individual assessment, I
+  declare that it is my original work and that no part has been
+  contributed by, produced by or in conjunction with another student.
+\item
+  I give permission for my assessment response to be reproduced,
+  communicated, compared and archived for the purposes of detecting
+  plagiarism.
+\item
+  I give permission for a copy of my assessment to be retained by the
+  university for review and comparison, including review by external
+  examiners.
+\end{itemize}
+
+\textbf{I understand that:}
+
+\begin{itemize}
+\item
+  Plagiarism is the presentation of the work, idea or creation of
+  another person or machine as though it is your own. It is a form of
+  cheating and is a very serious academic offence that may lead to
+  exclusion from the University. Plagiarised material can be drawn from,
+  and presented in, written, graphic and visual form, including
+  electronic data and oral presentations. Plagiarism occurs when the
+  origin of the material used is not appropriately cited.
+\item
+  Plagiarism includes the act of assisting or allowing another person to
+  plagiarise or to copy my work.
+\end{itemize}
+
+\textbf{I agree and acknowledge that:}
+
+\begin{itemize}
+\item
+  I have read and understood the Declaration and Statement of Authorship
+  above.
+\item
+  If I do not agree to the Declaration and Statement of Authorship in
+  this context and all boxes are not checked, the assessment outcome is
+  not valid for assessment purposes and will not be included in my final
+  result for this course.
+\end{itemize}
+
+\textbf{This is a template file. The following example included is not
+considered a good example to follow for Assignment 2. Remove this
+warning prior to submitting.}
+
+\subsection{Deconstruct}\label{deconstruct}
+
+\subsubsection{Original}\label{original}
+
+The original data visualisation selected for the assignment was as
+follows:
+
+\emph{Source: Newsweek, ``Most Religious Countries in the World.}
+
+\subsubsection{Objective and Audience}\label{objective-and-audience}
+
+The objective and audience of the original data visualisation chosen can
+be summarised as follows:
+
+\textbf{Objective}
+
+News websites commonly use maps as an engagement tool. There might have
+been not much thought made about the best kind of data visualisation to
+use or what the objective of this map was. The author of this report has
+reason to believe this is true, based on years of experience working in
+newsrooms.
+
+Assuming that the authors had an objective, then the objective was to
+represent the geographic distribution of religiosity worldwide.
+
+\textbf{Audience}
+
+Newsweek is a general news website, so the audience is a general and
+non-technical audience. Newsweek has news from around the world and is
+written for English-speaking audiences. We can expect the majority of
+readers will live in developed western countries.
+
+\subsubsection{Critique}\label{critique}
+
+The visualisation chosen had the following three main issues:
+
+\begin{itemize}
+\tightlist
+\item
+  The visualisation uses a palette of colours from across the colour
+  spectrum, which would be appropriate for categorical data. However,
+  the variable of interest is continuous and placed in levels, meaning
+  that these levels have order. A sequential colour scale would be more
+  appropriate.
+\item
+  The mapping from levels in the data to colours is confusing: ``No
+  Data'' has a colour and is in the palette's middle. The palette also
+  does not observe any sensible order in relation to the levels of the
+  variable of interest, which is evident from looking at the legend.
+\item
+  A map is not the right choice for this data. Many large landmasses
+  have no data, meaning there are large gaps in the data visualisation.
+  Also, it is somewhat interesting to see that some areas of Earth are
+  more religious than others, but it would be more interesting to see if
+  religiosity correlates with some other variable other than location on
+  Earth.
+\end{itemize}
+
+\subsection{Reconstruct}\label{reconstruct}
+
+This visualisation would be more interesting if religiosity was plotted
+against some other variable, like some measure of poverty.
+
+Using a scatter plot to see a correlation would address the issue of
+``No Data'' in the original map, since scatter plots do not alert the
+audience to missing data. But a note on the visualisation should explain
+that some countries do not have available data. To draw the reader's
+attention to the correlation, each chart can have a ``line of best
+fit''. Most readers in a general audience will know what this means.
+
+One issue with the visualisation that was not previously mentioned is it
+does not link to the data source, but only names Pew Research Centre.
+The most likely source is a report by Pew in June of 2024. The data in
+that report is displayed in a horizontal bar chart with vertical
+gridlines at 20\%, 40\%, 60\% and 80\%, which match the levels of the
+Newsweek map's data.
+
+That Pew Research data was unavailable so instead this reconstruction
+uses another Pew Research source, which was published in 2022 and
+includes data from 2010. That data includes ``unaffiliated'' to mean
+those people who do not follow a religion. The remainder
+(100-unaffiliated)\% should be close to the notion of ``importance of
+religion'' that the Newsweek map displays.
+
+Of particular interest would be this question: does religiosity
+correlate with poverty? To achieve this, we will combine that data with
+another dataset. A faceted data visualisation will allow for
+consideration of many levels of poverty severity.
+
+\subsubsection{Code}\label{code}
+
+The following code was used to fix the issues identified in the
+original. Note that a small amount of data cleaning and prep was done in
+MS Excel.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{poverty }\OtherTok{=} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"poverty{-}explorer.csv"}\NormalTok{)}
+
+\NormalTok{poverty[, }\StringTok{"Share.10.to.20.a.day"}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ poverty[, }\StringTok{"Share.below..20.a.day"}\NormalTok{] }\SpecialCharTok{{-}}
+\NormalTok{  poverty[, }\StringTok{"Share.below..10.a.day"}\NormalTok{]}
+\NormalTok{poverty[, }\StringTok{"Share.20.to.30.a.day"}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ poverty[, }\StringTok{"Share.below..30.a.day"}\NormalTok{] }\SpecialCharTok{{-}}
+\NormalTok{  poverty[, }\StringTok{"Share.below..20.a.day"}\NormalTok{]}
+\NormalTok{poverty[, }\StringTok{"Share.30.to.40.a.day"}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ poverty[, }\StringTok{"Share.below..40.a.day"}\NormalTok{] }\SpecialCharTok{{-}}
+\NormalTok{  poverty[, }\StringTok{"Share.below..30.a.day"}\NormalTok{]}
+
+\NormalTok{poverty2008To2012 }\OtherTok{=}\NormalTok{ poverty[poverty}\SpecialCharTok{$}\NormalTok{Year }\SpecialCharTok{\%in\%} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}2008\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}2009\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}2010\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}2011\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}2012\textquotesingle{}}\NormalTok{), }\FunctionTok{c}\NormalTok{(}\StringTok{"Country"}\NormalTok{, }\StringTok{"Year"}\NormalTok{, }\StringTok{"Share.below..10.a.day"}\NormalTok{, }\StringTok{"Share.10.to.20.a.day"}\NormalTok{, }\StringTok{"Share.20.to.30.a.day"}\NormalTok{, }\StringTok{"Share.30.to.40.a.day"}\NormalTok{)]}
+
+\CommentTok{\# Collect data from 2010, but take the closes year if 2010 is not available.}
+\NormalTok{order }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}2010\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}2011\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}2009\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}2012\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}2008\textquotesingle{}}\NormalTok{)}
+\FunctionTok{library}\NormalTok{(dplyr)}
+\NormalTok{povertyClosestYear }\OtherTok{\textless{}{-}}\NormalTok{ poverty2008To2012 }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{arrange}\NormalTok{(}\FunctionTok{factor}\NormalTok{(Year, }\AttributeTok{levels =}\NormalTok{ order)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{distinct}\NormalTok{(Country, }\AttributeTok{.keep\_all =} \ConstantTok{TRUE}\NormalTok{)}
+
+\NormalTok{religion2010 }\OtherTok{=} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"ReligionPerCountry\_2010.csv"}\NormalTok{)}
+\NormalTok{religion2010}\SpecialCharTok{$}\NormalTok{Unaffiliated }\OtherTok{=} \FunctionTok{gsub}\NormalTok{(}\StringTok{\textquotesingle{}[\textless{}\%]\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{, religion2010}\SpecialCharTok{$}\NormalTok{Unaffiliated)}
+\NormalTok{religion2010}\SpecialCharTok{$}\NormalTok{Unaffiliated }\OtherTok{=} \FunctionTok{as.numeric}\NormalTok{(religion2010}\SpecialCharTok{$}\NormalTok{Unaffiliated)}
+\NormalTok{religion2010}\SpecialCharTok{$}\NormalTok{Religious }\OtherTok{=} \DecValTok{100} \SpecialCharTok{{-}}\NormalTok{ religion2010}\SpecialCharTok{$}\NormalTok{Unaffiliated}
+\NormalTok{religion2010 }\OtherTok{=}\NormalTok{ religion2010[,}\FunctionTok{c}\NormalTok{(}\StringTok{"Country"}\NormalTok{,}\StringTok{"Religious"}\NormalTok{)]}
+
+\NormalTok{mergedData }\OtherTok{=} \FunctionTok{merge}\NormalTok{(povertyClosestYear, religion2010, }\AttributeTok{by =} \StringTok{"Country"}\NormalTok{)}
+\NormalTok{mergedData }\OtherTok{\textless{}{-}}\NormalTok{ mergedData[,}\FunctionTok{c}\NormalTok{(}\StringTok{"Share.below..10.a.day"}\NormalTok{, }
+                            \StringTok{"Share.10.to.20.a.day"}\NormalTok{, }
+                            \StringTok{"Share.20.to.30.a.day"}\NormalTok{, }
+                            \StringTok{"Share.30.to.40.a.day"}\NormalTok{,}
+                            \StringTok{"Religious"}\NormalTok{)]}
+
+\CommentTok{\# Make data long for ggplot}
+\FunctionTok{library}\NormalTok{(tidyr)}
+\NormalTok{mergedDataLong }\OtherTok{\textless{}{-}}\NormalTok{ mergedData }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{gather}\NormalTok{(IncomeBracket, ShareInBracket, }\SpecialCharTok{{-}}\NormalTok{Religious)}
+
+\NormalTok{variable\_names }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{(}
+  \StringTok{"Share.below..10.a.day"} \OtherTok{=} \StringTok{"$0 to $10 per day"}\NormalTok{ ,}
+  \StringTok{"Share.10.to.20.a.day"} \OtherTok{=} \StringTok{"$10 to $20 per day"}\NormalTok{,}
+  \StringTok{"Share.20.to.30.a.day"} \OtherTok{=} \StringTok{"$20 to $30 per day"}\NormalTok{,}
+  \StringTok{"Share.30.to.40.a.day"} \OtherTok{=} \StringTok{"$30 to $40 per day"}
+\NormalTok{)}
+\NormalTok{variable\_labeller }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(variable,value)\{}
+  \FunctionTok{return}\NormalTok{(variable\_names[value])}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Reconstruction}\label{reconstruction}
+
+The following plot fixes the main issues in the original.
+
+The chart shows that there is a strong correlation between religiosity
+and poverty, but the correlation between religiosity and poverty
+reverses somewhat when we consider less severe poverty.
+
+The code here is non-trivial, and is echoed in case it is of interest.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(}\StringTok{"ggplot2"}\NormalTok{)}
+
+\FunctionTok{ggplot}\NormalTok{(mergedDataLong, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{Religious, }\AttributeTok{y=}\NormalTok{ShareInBracket)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{size =} \FloatTok{0.5}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{aspect.ratio =} \DecValTok{1}\NormalTok{,}
+        \AttributeTok{plot.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{hjust =} \FloatTok{0.5}\NormalTok{,}\AttributeTok{size =} \DecValTok{15}\NormalTok{),}
+        \AttributeTok{plot.caption =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{hjust =} \DecValTok{0}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{x=} \StringTok{"Religious (\%)"}\NormalTok{, }
+       \AttributeTok{y=}\StringTok{"People who live in income bracket (\%)"}\NormalTok{,}
+       \AttributeTok{title=} \StringTok{"Countries by poverty and religiosity, 2010"}\NormalTok{,}
+       \AttributeTok{caption =} \StringTok{"Notes:}\SpecialCharTok{\textbackslash{}n}\StringTok{{-} Data for some countries was missing.}\SpecialCharTok{\textbackslash{}n}\StringTok{{-} Income per day was adjusted for inflation and cost of living.}\SpecialCharTok{\textbackslash{}n}\StringTok{{-} In some cases the closest possible year to 2010 was used.}\SpecialCharTok{\textbackslash{}n}\StringTok{Data:}\SpecialCharTok{\textbackslash{}n}\StringTok{{-} \textquotesingle{}Poverty Data Explorer\textquotesingle{}, Our World in Data}\SpecialCharTok{\textbackslash{}n}\StringTok{{-} \textquotesingle{}The Global Religious Landscape\textquotesingle{}, Pew Research Center"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ylim}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{100}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{xlim}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{100}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_smooth}\NormalTok{(}\AttributeTok{method=}\NormalTok{lm, }\AttributeTok{se=}\ConstantTok{FALSE}\NormalTok{, }\AttributeTok{linetype=}\StringTok{"solid"}\NormalTok{, }\AttributeTok{color=}\StringTok{"darkred"}\NormalTok{, }\AttributeTok{linewidth =} \FloatTok{0.5}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{facet\_wrap}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\FunctionTok{factor}\NormalTok{(IncomeBracket, }\AttributeTok{levels=}\FunctionTok{c}\NormalTok{(}\StringTok{"Share.below..10.a.day"}\NormalTok{,}
+                                             \StringTok{"Share.10.to.20.a.day"}\NormalTok{,}
+                                             \StringTok{"Share.20.to.30.a.day"}\NormalTok{,}
+                                             \StringTok{"Share.30.to.40.a.day"}\NormalTok{)),}
+             \AttributeTok{scales=}\StringTok{"free\_y"}\NormalTok{, }\AttributeTok{ncol=}\DecValTok{2}\NormalTok{, }\AttributeTok{labeller=}\NormalTok{ variable\_labeller)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics{Assignment_2_RMarkdown_Template_files/figure-latex/unnamed-chunk-2-1} \end{center}
+
+\subsection{References}\label{references}
+
+The reference to the original data visualisation, the data sources used
+for the reconstruction are as follows:
+
+\begin{itemize}
+\tightlist
+\item
+  \url{https://www.newsweek.com/map-shows-most-religious-countries-2024-1942346}
+\item
+  likely data source
+  \url{https://www.pewresearch.org/religion/2024/06/17/religion-and-spirituality-in-east-asian-societies/}
+\item
+  new data source
+  \url{https://assets.pewresearch.org/wp-content/uploads/sites/11/2014/01/global-religion-full.pdf}
+\item
+  poverty data
+  \url{https://ourworldindata.org/explorers/poverty-explorer}
+\end{itemize}
+
+\end{document}

@@ -84,8 +84,6 @@ graphics.off()
 #------------------------------------------------------------------------------- 
 # Get summary statistics of chain:
 
-summaryInfo = smryMCMC( mcmcCoda , 
-                        saveName=fileNameRoot  )
 show(summaryInfo)
 # Display posterior information:
 plotMCMC( mcmcCoda , data=myData , xName=xName , yName=yName , 
