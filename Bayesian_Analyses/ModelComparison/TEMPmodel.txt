@@ -1,0 +1,88 @@
+
+  # Standardize the data:
+  data {
+    ym <- mean(y)
+    ysd <- sd(y)
+    for ( i in 1:Ntotal ) {
+      zy[i] <- ( y[i] - ym ) / ysd
+    }
+    for ( j in 1:Nx ) {
+      xm[j]  <- mean(x[,j])
+      xsd[j] <-   sd(x[,j])
+      for ( i in 1:Ntotal ) {
+        zx[i,j] <- ( x[i,j] - xm[j] ) / xsd[j]
+      }
+    }
+    # # Specify the values of indepdenent variable for prediction
+    # xPred[1] <- 15
+    # xPred[2] <- 75
+
+    # Specify the priors for original beta parameters
+    # Prior locations to reflect the expert information
+    mu0 <- ym # Set to overall mean a priori based on the interpretation of constant term in regression
+    mu[1] <- 0.1 # Cement
+    mu[2] <- 0.15 # Blast Furnace Slag
+    mu[3] <- 0.1 # FLy Ash
+    mu[4] <- -0.5 # Water here this -0.5 is arbitrarirly chosen but the negative sign is due to
+                  # the expert thinks that a unit increase in water decreases the CSS.
+    mu[5] <- 0.1 # Superplasticizer
+    mu[6] <- 0 # Coarse Aggregate
+    mu[7] <- 0 # Fine Aggregate
+
+    # Prior variances to reflect the expert information    
+    Var0 <- 1 # Set simply to 1
+    Var[1] <- 0.01 # Cement
+    Var[2] <- 0.1 # Blast Furnace Slag
+    Var[3] <- 0.5 # FLy Ash
+    Var[4] <- 50 # Water
+    Var[5] <- 0.1 # Superplasticizer
+    Var[6] <- 0.5 # Coarse Aggregate
+    Var[7] <- 0.5 # Fine Aggregate
+
+    # Compute corresponding prior means and variances for the standardised parameters
+    muZ[1:Nx] <-  mu[1:Nx] * xsd[1:Nx] / ysd 
+
+    muZ0 <- (mu0 + sum( mu[1:Nx] * xm[1:Nx] / xsd[1:Nx] )*ysd - ym) / ysd 
+
+    # Compute corresponding prior variances and variances for the standardised parameters
+    VarZ[1:Nx] <- Var[1:Nx] * ( xsd[1:Nx]/ ysd )^2
+    VarZ0 <- Var0 / (ysd^2)
+
+  }
+  # Specify the model for standardized data:
+  model {
+    m ~ dcat( mPriorProb[] )
+    mPriorProb[1] <- .95
+    mPriorProb[2] <- .05
+    for ( i in 1:Ntotal ) {
+      zy[i] ~ dt( ifelse(m==1, model1[i] , model2[i]) , 1/zsigma^2 , nu )
+      model1[i] <- zbeta0 + sum(zbeta[1:Nx] * zx[i,1:Nx])
+      model2[i] <- zbeta0 + sum(zbeta[1:3] * zx[i,1:3]) 
+    }
+    
+    # Priors vague on standardized scale:
+    zbeta0 ~ dnorm( muZ0 , 1/VarZ0 )  
+    for ( j in 1:Nx ) {
+       zbeta[j] ~ dnorm( muZ[j] , 1/VarZ[j] )
+    }
+    
+    # zbeta02 ~ dnorm( muZ0 , 1/VarZ0 )  
+    # for ( j in 1:3 ) {
+    #   zbeta2[j] ~ dnorm( muZ[j] , 1/VarZ[j] )  
+    # }
+    zsigma ~ dgamma(0.01,0.01)#dunif( 1.0E-5 , 1.0E+1 )
+    nu ~ dexp(1/30.0)
+
+    # Transform to original scale:
+    beta[1:Nx] <- ( zbeta[1:Nx] / xsd[1:Nx] )*ysd
+    beta0 <- zbeta0*ysd  + ym - sum( zbeta[1:Nx] * xm[1:Nx] / xsd[1:Nx] )*ysd
+    sigma <- zsigma*ysd
+    # 
+    # # Compute predictions at every step of the MCMC
+    pred1 <- beta0 + beta[1] * xPred[1] + beta[2] * xPred[2] + beta[3] * xPred[3] + beta[4] * xPred[4]
+            + beta[5] * xPred[5] + beta[6] * xPred[6] + beta[7] * xPred[7]
+
+    pred2 <- beta0 + beta[1] * xPred[1] + beta[2] * xPred[2] + beta[3] * xPred[3] 
+
+  }
+  
