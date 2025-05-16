@@ -1,6 +1,4 @@
-from poisson_rv import PoissonGenerator
-
-def simulate_outbreak(poisson_generator, target):
+def simulate_outbreak(offspring_distribution_generator, target):
     
     outbreak = {
         "history": [[1]], # Generation 0 
@@ -17,7 +15,7 @@ def simulate_outbreak(poisson_generator, target):
             if outbreak["history"][i][j] == 0:
                 continue
             for _ in range(0, outbreak["history"][i][j]):
-                offspring_for_this_individual = poisson_generator.get()
+                offspring_for_this_individual = offspring_distribution_generator.get()
                 next_generation.append(offspring_for_this_individual)
 
         target_reached = (sum(next_generation) >= target)

@@ -1,7 +1,7 @@
-from scipy.stats import gamma, poisson, nbinom
+from scipy.stats import gamma, poisson
 
-class PoissonGenerator:
-    # pregenerate this RV in tests, testable results
+class PoissonProcessGenerator:
+    # presets are to pregenerate this RV in tests for testable results
     def __init__(self, shape, scale, presets=[]):
         self.shape = shape
         self.scale = scale
