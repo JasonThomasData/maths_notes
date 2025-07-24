@@ -9,7 +9,7 @@ class CoaggregationDistributionGenerator:
         self.coaggregation_distribution = coaggregation_distribution
 
 	def is_offspring(self):
-		return (np.random.uniform(low=0.0, high=1.0, size=1) < self.offspring_threshold)
+		return bool(np.random.uniform(low=0.0, high=1.0, size=1) < self.offspring_threshold)
 
     def get(self):
 		offspring = 0

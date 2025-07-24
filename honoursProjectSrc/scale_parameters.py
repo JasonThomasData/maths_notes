@@ -1,8 +1,8 @@
-def to_shape_scale(k_dispersion, R0):
+def to_shape_scale(k_dispersion_values, R0):
 
     shape = []
     scale = []
-    for k in k_dispersion:
+    for k in k_dispersion_values:
         if k == "inf":
             k = 10**7
         
@@ -12,7 +12,7 @@ def to_shape_scale(k_dispersion, R0):
         scale.append(R0/k)
 
     results = {}
-    for i, k, in enumerate(k_dispersion):
+    for i, k, in enumerate(k_dispersion_values):
         results[str(k)] = {
             "shape": shape[i],
             "scale": scale[i]
