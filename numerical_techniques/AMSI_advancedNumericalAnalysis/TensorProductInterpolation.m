@@ -2,7 +2,7 @@
 %% INTERPOLATION PROBLEM
 
 % Accepts vector of different lengths and values
-x_pt = [2,4,7,15,18];
+x_pt = [2,4,7,15,11];
 y_pt = [1,2,4,5,6];
 x_pt_size = size(x_pt, 2);
 y_pt_size = size(y_pt, 2);
@@ -27,11 +27,12 @@ y_space = linspace(min(y_pt),max(y_pt),y_space_size);
 %% TENSOR PRODUCT INTERPOLATION
 
 % Tensor Product Interpolation
-% For 3 X pts
+% x_pt=[1,2,3]
 % l_i_deltaX = [(x_space - x_pt(2))/(x_pt(1)-x_pt(2)) .* (x_space - x_pt(3))/(x_pt(1)-x_pt(3));...
 %               (x_space - x_pt(1))/(x_pt(2)-x_pt(1)) .* (x_space - x_pt(3))/(x_pt(2)-x_pt(3));...
 %               (x_space - x_pt(1))/(x_pt(3)-x_pt(1)) .* (x_space - x_pt(2))/(x_pt(3)-x_pt(2))];
 
+% The below code generalises that to any points
 l_i_deltaX = zeros(x_pt_size, x_space_size);
 for i=1:x_pt_size
     prod = 1;
