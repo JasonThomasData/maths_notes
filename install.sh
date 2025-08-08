@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-sudo apt install liboctave-dev
+sudo apt install octave-dev
 sudo apt install octave
 
 # Need this for pdf exports
@@ -24,11 +24,5 @@ echo "r = getOption('repos'); r['CRAN'] = 'https://cran.csiro.au/'; options(repo
 echo "IRkernel::installspec()" | sudo  --vanilla
 
 echo "SETUP VIM KEYS"
-# Create required directory in case (optional)
-mkdir -p $(jupyter --data-dir)/nbextensions
-# Clone the repository
-cd $(jupyter --data-dir)/nbextensions
-git clone https://github.com/lambdalisue/jupyter-vim-binding vim_binding
-# Activate the extension
-jupyter nbextension enable vim_binding/vim_binding
+pip install jupyterlab-vim
 
