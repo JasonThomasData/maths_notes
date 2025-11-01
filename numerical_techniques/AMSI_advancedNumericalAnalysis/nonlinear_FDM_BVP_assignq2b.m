@@ -1,0 +1,114 @@
+%nonlinear finite difference method
+
+% Inputs
+tol = 1e-10; %tolerance
+NN = 1000; %maximum number of iterations
+ 
+f = @(x,y,yp) y^3 - y*yp;
+fy = @(x,y,yp) 3*y^2 - yp;
+fyp = @(x,y,yp) -y;
+
+N = 9;
+alpha = 1/2;
+beta = 1/3;
+a = 1;
+b = 2;
+
+h = (b-a)/(N+1);
+z = linspace(alpha,beta,N+2)';
+z = z(2:end-1); % z_i \approx y(x_i)
+
+A = zeros(N,1); % Centre diagonal
+B = zeros(N,1); % Upper diagonal
+C = zeros(N,1); % Lower diagonal
+D = zeros(N,1); % RHS vector
+ 
+for j=1:NN 
+
+    x = a+h;
+    t = (z(2)-alpha)/(2*h);       % FDM approx of 1st derivative
+    A(1) = -2-h^2*fy(x,z(1),t);   % first comp. of main diagonal
+    B(1) = 1-h/2*(fyp(x,z(1),t)); % first comp. of upper diagonal
+    D(1) = (2*z(1)-z(2)-alpha + h^2*f(x,z(1),t)); %first comp. of right hand side
+
+    for i = 2:N-1   %computing at inner points 
+        x = a+i*h;
+        t = (z(i+1)-z(i-1))/(2*h); % FDM approx of 1st derivative
+        A(i) = -2-h^2*fy(x,z(i),t);
+        B(i) = 1-h/2*fyp(x,z(i),t);
+        C(i) = 1+h/2*fyp(x,z(i),t);
+        D(i) = (2*z(i)-z(i+1)-z(i-1)+h^2*f(x,z(i),t));
+    end
+
+    x = b-h;
+    t = (beta-z(N-1))/(2*h);
+    A(N) = -2-h^2*fy(x,z(N),t); %last comp. of the main diagonal
+    C(N) = 1+h/2*fyp(x,z(N),t); %last comp. of the lower diagonal
+    D(N) = (2*z(N)-z(N-1)-beta+h^2*f(x,z(N),t)); %last comp. of right hand side
+
+    C = [C(2:end);0];              % only A needs to be full size,  
+    B = [0;B(1:end-1)];
+    M = spdiags([C,A,B],-1:1,N,N); %M is the Jacobian matrix
+
+    %Newton iteration
+    v = M\D;
+    z = z+v;
+    if (norm(v) <= tol)
+        break;
+    end
+end
+
+z = [alpha;z;beta];
+
+% Error calculation
+yexact = @(x) 1./(1+x);
+
+xi = linspace(a,b,N+2);
+ye=yexact(xi);
+
+%{
+figure;
+plot(xi,abs(ye-z'),'linewidth',5);
+legend('absolute error');
+set(gca,'fontsize',15);
+%}
+
+figure;
+plot(xi,z);
+%legend('exact','numerical', 'fontsize',16);
+%maxerr = max(abs(ye-z'));
+%disp(["maxErr", maxerr]);
+
+FDMerr =  [0;
+           0.067677327935667;
+           0.108836638281762;
+           0.130034695048353;
+           0.136058492709035;
+           0.130438643786701;
+           0.115802676342036;
+           0.094121623839816;
+           0.066884373453591;
+           0.035222403353408;
+                           0]*1.0e-04;
+
+shootingerr = [0;
+               0.277337907084174;
+               0.429791275902147;
+               0.496570939367835;
+               0.504013729640818;
+               0.470031053523279;
+               0.406933692298495;
+               0.323257364209795;
+               0.224961503869636;
+               0.116227923396828;
+               0.000000046629367]*1.0e-07;
+
+%subplot(1,2,1);
+%plot(xi, FDMerr,'linewidth',2);
+%title("FDM errors")
+%set(gca,'fontsize',15);
+
+%subplot(1,2,2);
+%plot(xi,shootingerr,'linewidth',2);
+%title("Shooting errors")
+%set(gca,'fontsize',15);
